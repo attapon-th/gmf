@@ -9,10 +9,10 @@ import (
 	"strings"
 )
 
-const (
-	AppName         = "GoMakefile"
-	AppnDescription = `for make file go project.`
-)
+// const (
+// 	AppName         = "GoMakefile"
+// 	AppnDescription = `for make file go project.`
+// )
 
 var (
 	makefile = "./Makefile"
@@ -123,7 +123,7 @@ func WriteLines(filename string) {
 	defer file.Close()
 	for i, l := range Lines {
 		if _, err = file.WriteString(fmt.Sprintf("%s\n", l)); err != nil {
-			fmt.Errorf("Error Line: %d, String: %s, Error: %s", i, l, err.Error())
+			fmt.Printf("Error Line: %d, String: %s, Error: %s", i, l, err.Error())
 		}
 	}
 
@@ -138,14 +138,14 @@ func GetVersion() (int, string) {
 	return -1, ""
 }
 
-func SetVersion(version string) {
-	i, _ := GetVersion()
-	if i < 0 {
-		return
-	}
-	Lines[i] = fmt.Sprintf("VERSION=%s", version)
-	fmt.Println("VERSION: ", version)
-}
+// func SetVersion(version string) {
+// 	i, _ := GetVersion()
+// 	if i < 0 {
+// 		return
+// 	}
+// 	Lines[i] = fmt.Sprintf("VERSION=%s", version)
+// 	fmt.Println("VERSION: ", version)
+// }
 
 func IncrementVersion() {
 	i, v := GetVersion()
