@@ -50,7 +50,7 @@ func main() {
 }
 
 func help() {
-	h := `Helper V1.0.1:
+	h := `Helper V1.0.2:
 	h	-	Show Help
 	v	-	Show Info
 	i	-	Increment minor Version
