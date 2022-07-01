@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+//https://github.com/sirkon/go-imports-rename
+
 func ReplaceImportFile(filename string, oldName, moduleName string) error {
 	oldName = strings.TrimRight(strings.TrimSpace(oldName), "/") + "/"
 	fs, err := os.OpenFile(filename, os.O_RDWR, os.ModePerm)
