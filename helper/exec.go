@@ -51,34 +51,32 @@ func Exec(command string, args ...string) (output string, err error) {
 }
 
 // Exec cli commands
-// func ExecOutStd(command string, args ...string) (io.ReadCloser, error) {
-// 	commands := spaceRegexp.Split(command, -1)
-// 	command = commands[0]
-// 	commandArgs := []string{}
-// 	if len(commands) > 1 {
-// 		commandArgs = commands[1:]
-// 	}
-// 	if len(args) > 0 {
-// 		commandArgs = append(commandArgs, args...)
-// 	}
+func ExecCmd(command string, args ...string) (*exec.Cmd, error) {
+	commands := spaceRegexp.Split(command, -1)
+	command = commands[0]
+	commandArgs := []string{}
+	if len(commands) > 1 {
+		commandArgs = commands[1:]
+	}
+	if len(args) > 0 {
+		commandArgs = append(commandArgs, args...)
+	}
 
-// 	fullCommand, err := exec.LookPath(command)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("%s cannot be found", command)
-// 	}
+	fullCommand, err := exec.LookPath(command)
+	if err != nil {
+		return nil, fmt.Errorf("%s cannot be found", command)
+	}
 
-// 	cmd := exec.Command(fullCommand, commandArgs...)
-// 	cmd.Env = os.Environ()
-// 	cmd.Stderr = cmd.Stdout
-// 	stdOut, err := cmd.StdoutPipe()
-// 	if err != nil {
-// 		return stdOut, err
-// 	}
-// 	if err := cmd.Run(); err != nil {
-// 		return stdOut, err
-// 	}
-// 	return stdOut, nil
-// }
+	cmd := exec.Command(fullCommand, commandArgs...)
+	cmd.Env = os.Environ()
+	if err != nil {
+		return cmd, err
+	}
+	if err := cmd.Run(); err != nil {
+		return cmd, err
+	}
+	return cmd, nil
+}
 
 func ConcatError(err ...error) error {
 	errStr := ""
