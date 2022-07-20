@@ -7,6 +7,7 @@ require (
 	github.com/hpcloud/tail v1.0.0
 	github.com/phuslu/log v1.0.74
 	github.com/spf13/cobra v1.5.0
+	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (

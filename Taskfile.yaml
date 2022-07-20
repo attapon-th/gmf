@@ -4,8 +4,9 @@ version: "3"
 
 vars:
   APP_GMF: ./gmf
+  APP_GOFILE: cmd/gmf/gmf.go
   APP_NAME: gmf
-  APP_VERSION: 2.0.5
+  APP_VERSION: 2.0.6
   APP_BUILD:
     sh: git log -n 1 --format=%H
   APP_DATE:
@@ -24,14 +25,32 @@ tasks:
       - ./gmf {{.CLI_ARGS}}
   build:
     cmds:
-      - go build {{.LDFLAGS}} -v -o gmf cmd/gmf/gmf.go
-  git-cpush:
+      - go build {{.LDFLAGS}} -v -o gmf {{.APP_GOFILE}}
+
+  gitpush:
     cmds:
       - task: build
       - ./gmf version -i
+      - task set-gomain
       - git add .
       - git cpush
   mod:
     cmds:
       - go mod tidy
       - go mod vendor
+
+  install:
+    cmds:
+      - go install {{.GO_MODULE}}/cmd/gmf@latest
+
+  set-gomain:
+    cmds:
+      - task: build
+      - ./gmf tail {{.APP_GOFILE}} | ./gmf stdin  -r '^(\s+AppName +string = )("\w*")$' '$1"{{.APP_NAME}}"' > {{.APP_GOFILE}}-tmp
+      - mv {{.APP_GOFILE}}-tmp {{.APP_GOFILE}}
+      - ./gmf tail {{.APP_GOFILE}} | ./gmf stdin  -r '^(\s+Version +string = )("\w*")$' '$1"{{.APP_VERSION}}"' > {{.APP_GOFILE}}-tmp
+      - mv {{.APP_GOFILE}}-tmp {{.APP_GOFILE}}
+      - ./gmf tail {{.APP_GOFILE}} | ./gmf stdin  -r '^(\s+Build +string = )("\w*")$' '$1"{{.APP_BUILD}}"' > {{.APP_GOFILE}}-tmp
+      - mv {{.APP_GOFILE}}-tmp {{.APP_GOFILE}}
+      - ./gmf tail {{.APP_GOFILE}} | ./gmf stdin  -r '^(\s+DateBuild +string = )("\w*")$' '$1"{{.APP_DATE}}"' > {{.APP_GOFILE}}-tmp
+      - mv {{.APP_GOFILE}}-tmp {{.APP_GOFILE}}
