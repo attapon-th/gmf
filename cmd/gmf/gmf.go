@@ -7,7 +7,7 @@ import (
 var (
 	AppName   string = "gmf"
 	Version   string = "2.0.5"
-	Build     string = "f3e53929c1efed976c9356aa40b275e8aae1abef"
+	Build     string = "f42184c16bb66764826488b0b9c761b1cd604908"
 	DateBuild string = "2022-07-20T17:30:42+07:00"
 )
 
