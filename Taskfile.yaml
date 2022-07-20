@@ -30,7 +30,7 @@ tasks:
   version:
     cmds:
       - task dev -- version -i
-  gitpush:
+  cpush:
     cmds:
       - task: build
       - task set-gomain
