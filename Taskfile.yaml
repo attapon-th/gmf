@@ -6,7 +6,7 @@ vars:
   APP_GMF: ./gmf
   APP_GOFILE: cmd/gmf/gmf.go
   APP_NAME: gmf
-  APP_VERSION: 2.0.6
+  APP_VERSION: 2.0.8
   APP_BUILD:
     sh: git log -n 1 --format=%H
   APP_DATE:
@@ -25,12 +25,14 @@ tasks:
       - ./gmf {{.CLI_ARGS}}
   build:
     cmds:
-      - go build {{.LDFLAGS}} -v -o gmf {{.APP_GOFILE}}
+      - go build {{.LDFLAGS}} -o gmf {{.APP_GOFILE}}
 
+  version:
+    cmds:
+      - task dev -- version -i
   gitpush:
     cmds:
       - task: build
-      - ./gmf version -i
       - task set-gomain
       - git add .
       - git cpush
