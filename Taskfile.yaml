@@ -6,7 +6,7 @@ vars:
   APP_GMF: ./gmf
   APP_GOFILE: cmd/gmf/gmf.go
   APP_NAME: gmf
-  APP_VERSION: 2.0.8
+  APP_VERSION: 2.1.0
   APP_BUILD:
     sh: git log -n 1 --format=%H
   APP_DATE:

@@ -33,12 +33,12 @@ var rootCmd = &cobra.Command{
 func Execute() {
 
 	rootCmd.Long = fmt.Sprintf(`
-	Tools management for golang project
-	-----------------------------------
-	Version: %s
-	Build:   %s
-	Date:    %s
-	-----------------------------------
+Tools management for golang project
+-----------------------------------
+Version: %s
+Build:   %s
+Date:    %s
+-----------------------------------
 		`, Version, Build, DateBuild)
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "taskfile", "t", "./Taskfile.yaml", "Taskfile path for control project.")
