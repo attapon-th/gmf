@@ -1,0 +1,37 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  APP_GMF: ./gmf
+  APP_NAME: gmf
+  APP_VERSION: 2.0.5
+  APP_BUILD:
+    sh: git log -n 1 --format=%H
+  APP_DATE:
+    sh: git log -n 1 --format=%aI
+  LDFLAGS: -ldflags " -X main.Version={{.APP_VERSION}} -X main.Build={{.APP_BUILD}} -X main.DateBuild={{.APP_DATE}}"
+  GO_MODULE:
+    sh: go mod why -m | {{.APP_GMF}} stdin -n 1 -r  "^# (.+)\$" "\$1"
+
+tasks:
+  echo:
+    cmds:
+      - echo "{{.GO_MODULE}}"
+  dev:
+    cmds:
+      - task: build
+      - ./gmf {{.CLI_ARGS}}
+  build:
+    cmds:
+      - go build {{.LDFLAGS}} -v -o gmf cmd/gmf/gmf.go
+  git-cpush:
+    cmds:
+      - task: build
+      - ./gmf version -i
+      - git add .
+      - git cpush
+  mod:
+    cmds:
+      - go mod tidy
+      - go mod vendor
